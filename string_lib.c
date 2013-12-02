@@ -151,13 +151,31 @@ void str_nccat(STRING *str1, const char *str2, size_t len)
 	$STR_ATTR(*str1)->length += len;
 }
 
-void str_trim(STRING str1)
+void str_trim(STRING str)
+{
+	str_rtrim(str);
+	str_ltrim(str);
+}
+
+void str_ltrim(STRING str)
 {
 	int i;
-	for (i = str_length(str1) - 1; i >= 0 && isspace(str1[i]); --i)
+	for (i = 0; i < str_length(str) && isspace(str[i]); ++i)
+		/* nothing */;
+
+	if (i < str_length(str))
+		memmove($STR_ATTR(str)->str, $STR_ATTR(str)->str + i, str_length(str) - i);	
+	if (i > 0)
+		memset($STR_ATTR(str)->str + str_length(str) - i, '\0', i);
+}
+
+void str_rtrim(STRING str)
+{
+	int i;
+	for (i = str_length(str) - 1; i >= 0 && isspace(str[i]); --i)
 	{
-		$STR_ATTR(str1)->str[i] = '\0';
-		$STR_ATTR(str1)->length--;
+		$STR_ATTR(str)->str[i] = '\0';
+		$STR_ATTR(str)->length--;
 	}
 }
 
