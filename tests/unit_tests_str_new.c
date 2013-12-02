@@ -1,5 +1,5 @@
 #include <CUnit/Basic.h>
-#include "string_lib.h"
+#include "../string_lib.h"
 
 static STRING str = NULL;
 

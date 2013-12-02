@@ -1,5 +1,5 @@
 #include <CUnit/Basic.h>
-#include "string_lib.h"
+#include "../string_lib.h"
 
 extern CU_SuiteInfo str_new_suite;
 extern CU_SuiteInfo str_nnew_suite;

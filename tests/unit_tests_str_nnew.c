@@ -1,5 +1,5 @@
 #include <CUnit/Basic.h>
-#include "string_lib.h"
+#include "../string_lib.h"
 
 static void test_str_nnew_returns_string_of_correct_length()
 {
