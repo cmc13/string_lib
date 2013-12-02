@@ -5,14 +5,14 @@
 
 const int NEW_STRING_SIZE = 20;
 
-struct _str_attrs {
+typedef struct _str_attrs {
 	size_t length;	/* Describes the current length in characters of the string. */
 	size_t size;	/* Describes the current number of bytes (characters) allocated to the string at this time. */
 	char str[1];	/* The actual location of the string data. */
-};
+} _STR_ATTRS;
 
 #define $STR_ATTR(s) \
-	((struct _str_attrs *)((s) - (((struct _str_attrs *)(s))->str - (char *)((struct _str_attrs *)(s)))))
+	((_STR_ATTRS *)((s) - (((_STR_ATTRS *)(s))->str - (char *)((_STR_ATTRS *)(s)))))
 
 /*
  * Private Function Declarations
@@ -32,7 +32,7 @@ STRING str_new()
 
 STRING str_nnew(size_t size)
 {
-	struct _str_attrs *ptr = malloc(sizeof(struct _str_attrs) + sizeof(char) * (size-1));
+	_STR_ATTRS *ptr = malloc(sizeof(_STR_ATTRS) + sizeof(char) * (size-1));
 	STRING str = NULL;
 	if (ptr != NULL)
 	{
@@ -79,7 +79,7 @@ int str_printf(STRING *str, const char *format, ...)
 int str_vprintf(STRING *str, const char *format, va_list args)
 {
 	int count = -1;
-	struct _str_attrs *ptr;
+	_STR_ATTRS *ptr;
 	va_list local_args;
 
 	va_copy(local_args, args);
@@ -167,13 +167,13 @@ void str_trim(STRING str1)
 
 static int _str_ensure(STRING *str, int count)
 {
-	struct _str_attrs *ptr = $STR_ATTR(*str);
+	_STR_ATTRS *ptr = $STR_ATTR(*str);
 	if (ptr->size < count + 1)
 	{
 		size_t new_size = ptr->size * (_nextpow2((count + 1) / ptr->size) + 1);
-		struct _str_attrs *new_ptr;
+		_STR_ATTRS *new_ptr;
 
-		new_ptr = realloc(ptr, sizeof(struct _str_attrs) + new_size - 1);
+		new_ptr = realloc(ptr, sizeof(_STR_ATTRS) + new_size - 1);
 		if (new_ptr != NULL)
 		{
 			memset(new_ptr->str + new_ptr->size, '\0', new_size - new_ptr->size);
