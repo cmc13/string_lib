@@ -19,7 +19,7 @@ struct _str_attrs {
  */
 
 static int _str_ensure(STRING *, int);
-static size_t nextpow2(int);
+static size_t _nextpow2(int);
 
 /*
  * Public Function Definitions
@@ -36,7 +36,7 @@ STRING str_nnew(size_t size)
 	STRING str = NULL;
 	if (ptr != NULL)
 	{
-		str = ((char *)ptr) + (ptr->str - (char *)ptr);
+		str = ptr->str;
 
 		ptr->length = 0;
 		ptr->size = size;
@@ -170,7 +170,7 @@ static int _str_ensure(STRING *str, int count)
 	struct _str_attrs *ptr = $STR_ATTR(*str);
 	if (ptr->size < count + 1)
 	{
-		size_t new_size = ptr->size * (nextpow2((count + 1) / ptr->size) + 1);
+		size_t new_size = ptr->size * (_nextpow2((count + 1) / ptr->size) + 1);
 		struct _str_attrs *new_ptr;
 
 		new_ptr = realloc(ptr, sizeof(struct _str_attrs) + new_size - 1);
@@ -178,7 +178,7 @@ static int _str_ensure(STRING *str, int count)
 		{
 			memset(new_ptr->str + new_ptr->size, '\0', new_size - new_ptr->size);
 			new_ptr->size = new_size;
-			*str = (const char *)(((char *)new_ptr) + (new_ptr->str - (char *)new_ptr));
+			*str = new_ptr->str;
 			return 1;
 		}
 
@@ -188,7 +188,7 @@ static int _str_ensure(STRING *str, int count)
 	return 1;
 }
 
-static size_t nextpow2(int x)
+static size_t _nextpow2(int x)
 {
 	--x;
 	x |= x >> 1;
