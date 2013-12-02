@@ -1,10 +1,12 @@
 #include <CUnit/Basic.h>
 #include "string_lib.h"
 
+extern CU_SuiteInfo str_new_suite;
+
 int main()
 {
-	CU_pSuite pSuite = NULL;
 	CU_SuiteInfo suites[] = {
+		str_new_suite,
 		CU_SUITE_INFO_NULL
 	};
 
