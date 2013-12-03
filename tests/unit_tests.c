@@ -3,12 +3,14 @@
 
 extern CU_SuiteInfo str_new_suite;
 extern CU_SuiteInfo str_nnew_suite;
+extern CU_SuiteInfo str_copy_suite;
 
 int main()
 {
 	CU_SuiteInfo suites[] = {
 		str_new_suite,
 		str_nnew_suite,
+		str_copy_suite,
 		CU_SUITE_INFO_NULL
 	};
 

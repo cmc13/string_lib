@@ -1,6 +1,6 @@
 CC = gcc
-OPTIONS = -Wall
-OBJS = unit_tests.o string_lib.o unit_tests_str_new.o unit_tests_str_nnew.o
+OPTIONS = -Wall -g
+OBJS = unit_tests.o string_lib.o unit_tests_str_new.o unit_tests_str_nnew.o unit_tests_str_copy.c
 
 unit_tests.out: ${OBJS}
 	${CC} ${OPTIONS} -o unit_tests.out ${OBJS} -lcunit

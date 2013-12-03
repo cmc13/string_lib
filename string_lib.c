@@ -116,22 +116,22 @@ void str_clear(STRING str1)
 	$STR_ATTR(str1)->length = 0;
 }
 
-void str_copy(STRING *str1, STRING str2)
+void str_copy(STRING *dest, STRING src)
 {
-	str_nccopy(str1, str2, str_length(str2));
+	str_nccopy(dest, src, str_length(src));
 }
 
-void str_ccopy(STRING *str1, const char *str2)
+void str_ccopy(STRING *dest, const char *src)
 {
-	str_nccopy(str1, str2, strlen(str2));
+	str_nccopy(dest, src, strlen(src));
 }
 
-void str_nccopy(STRING *str1, const char *str2, size_t len)
+void str_nccopy(STRING *dest, const char *src, size_t len)
 {
-	_str_ensure(str1, len);
-	memcpy($STR_ATTR(*str1)->str, str2, len);
-	memset($STR_ATTR(*str1)->str + len, '\0', str_size(*str1) - len);
-	$STR_ATTR(*str1)->length = len;
+	_str_ensure(dest, len + 1);
+	memcpy($STR_ATTR(*dest)->str, src, len);
+	memset($STR_ATTR(*dest)->str + len, '\0', str_size(*dest) - len);
+	$STR_ATTR(*dest)->length = len;
 }
 
 void str_cat(STRING *str1, STRING str2)
@@ -146,7 +146,7 @@ void str_ccat(STRING *str1, const char *str2)
 
 void str_nccat(STRING *str1, const char *str2, size_t len)
 {
-	_str_ensure(str1, str_length(*str1) + len);
+	_str_ensure(str1, str_length(*str1) + len + 1);
 	memcpy($STR_ATTR(*str1)->str + str_length(*str1), str2, len);
 	$STR_ATTR(*str1)->length += len;
 }
